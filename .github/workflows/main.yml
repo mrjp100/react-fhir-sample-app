@@ -1,28 +1,22 @@
 name: Deploy React.js Application
-
-on:
+'on':
   push:
     branches:
       - main
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Step 2: Set up Node.js environment
-      - name: Set up react.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-
-      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm install
+      - name: Build React app
+        run: npm run build
