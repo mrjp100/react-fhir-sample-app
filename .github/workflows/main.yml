@@ -1,5 +1,4 @@
 name: Deploy React.js Application
-
 on:
   push:
     branches:
@@ -7,44 +6,36 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-
       - name: Install dependencies
         run: npm install
-
       - name: Build React app
         run: npm run build
-
       - name: Upload build to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ secrets.AWS_SERVER_IP }}
+          host: '${{ secrets.AWS_SERVER_IP }}'
           username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
+          key: '${{ secrets.AWS_SSH_KEY }}'
           port: 22
-          source: "build/*"
-          target: "/home/ubuntu/your-react-app-directory/build"
-
+          source: build/*
+          target: /home/ubuntu/your-react-app-directory/build
       - name: Restart web server via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.AWS_SERVER_IP }}
+          host: '${{ secrets.AWS_SERVER_IP }}'
           username: ubuntu
-          key: ${{ secrets.AWS_SSH_KEY }}
+          key: '${{ secrets.AWS_SSH_KEY }}'
           port: 22
           script: |
             # Restart Nginx or any static file server
             sudo systemctl restart nginx
-  
