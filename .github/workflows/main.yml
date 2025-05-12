@@ -1,5 +1,4 @@
 name: Deploy React.js Application
-
 on:
   push:
     branches:
